@@ -549,15 +549,20 @@ export default class DrawioPlugin extends Plugin {
     async loadSettings() { this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData()); }
 
     async loadCustomLibraries(): Promise<Array<any>> {
-        const folder = this.settings.customLibrariesFolder;
-        if (!folder) return [];
+        let folder = this.settings.customLibrariesFolder;
 
-        const folderObj = this.app.vault.getAbstractFileByPath(folder);
-        if (!folderObj || !(folderObj instanceof TFile || 'children' in folderObj)) return [];
+        if (folder) {
+            const folderObj = this.app.vault.getAbstractFileByPath(folder);
+            if (!folderObj || !('children' in folderObj)) {
+                folder = '';
+            }
+        }
 
-        const files = this.app.vault.getFiles().filter(
-            f => f.path.startsWith(folder + '/') && f.extension === 'xml'
-        );
+        const files = this.app.vault.getFiles().filter(f => {
+            if (f.extension !== 'xml') return false;
+            if (folder) return f.path.startsWith(folder + '/');
+            return !f.path.includes('/');
+        });
 
         const entries: Array<any> = [];
         for (const file of files) {

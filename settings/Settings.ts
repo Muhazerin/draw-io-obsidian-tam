@@ -22,7 +22,7 @@ export const DEFAULT_SETTINGS: Partial<DrawioSettings> = {
   interactiveDiagram: true,
   useMarkdownLinks: false,
   Folder: 'drawio',
-  customLibrariesFolder: '',
+  customLibrariesFolder: 'drawio/libraries',
   diagramSize: '',
   HoverSizeDiagram: '100%',
   HiddenBorderInCanvas: true,
