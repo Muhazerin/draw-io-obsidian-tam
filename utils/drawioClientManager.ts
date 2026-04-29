@@ -23,7 +23,7 @@ export class DrawioClientManager {
             return DrawioClientManager.installationPromise;
         }
 
-        const drawioClientZipUrl = `https://github.com/somesanity/draw-io-obsidian/releases/download/${this.manifest.version}/webapp.zip`;
+        const drawioClientZipUrl = `https://github.com/Muhazerin/draw-io-obsidian-tam/releases/download/${this.manifest.version}/webapp.zip`;
                 
         DrawioClientManager.installationPromise = this._runInstallationProcess(drawioClientZipUrl);
         
