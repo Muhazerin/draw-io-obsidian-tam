@@ -265,6 +265,13 @@ async listendrawiomessage(event: MessageEvent) {
 
     switch (msg.event) {
         case 'init': {
+            const libraries = await this.plugin.loadCustomLibraries();
+            if (libraries.length > 0) {
+                this.sendMessageToDrawio({
+                    action: 'configure',
+                    config: { customLibraries: libraries }
+                });
+            }
             const xml = this.currentFile
                 ? await this.app.vault.read(this.currentFile)
                 : "<mxGraphModel><root><mxCell id='0'/><mxCell id='1' parent='0'/></root></mxGraphModel>";

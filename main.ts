@@ -548,6 +548,30 @@ export default class DrawioPlugin extends Plugin {
     async saveSettings() { await this.saveData(this.settings); }
     async loadSettings() { this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData()); }
 
+    async loadCustomLibraries(): Promise<Array<{title: string, xml: string}>> {
+        const folder = this.settings.customLibrariesFolder;
+        if (!folder) return [];
+
+        const libraries: Array<{title: string, xml: string}> = [];
+        const folderObj = this.app.vault.getAbstractFileByPath(folder);
+        if (!folderObj || !(folderObj instanceof TFile || 'children' in folderObj)) return [];
+
+        const files = this.app.vault.getFiles().filter(
+            f => f.path.startsWith(folder + '/') && f.extension === 'xml'
+        );
+
+        for (const file of files) {
+            try {
+                const content = await this.app.vault.read(file);
+                libraries.push({ title: file.basename, xml: content });
+            } catch (e) {
+                console.error(`[DrawioPlugin] Failed to read library file: ${file.path}`, e);
+            }
+        }
+
+        return libraries;
+    }
+
     async onunload() {
         if (this.canvasObserver) this.canvasObserver.disconnect();
         if (this.isServerOpen) {

@@ -81,7 +81,7 @@ export class DrawioTab extends PluginSettingTab {
       .setDesc(`${t('SETTINGS__FolderForSaveDiagrams_Description')}`)
       .addDropdown(dropdown => {
         const folders = this.app.vault.getAllLoadedFiles().filter(file => file instanceof TFolder);
-        
+
         folders.forEach((folder: TFolder) => {
             dropdown.addOption(folder.path, folder.path);
         })
@@ -90,6 +90,26 @@ export class DrawioTab extends PluginSettingTab {
 
         dropdown.onChange(async (value) => {
             this.plugin.settings.Folder = value;
+            await this.plugin.saveSettings();
+        });
+      }
+      );
+
+      new Setting(containerEl)
+      .setName(`${t('SETTINGS__CustomLibrariesFolder_Name')}`)
+      .setDesc(`${t('SETTINGS__CustomLibrariesFolder_Description')}`)
+      .addDropdown(dropdown => {
+        const folders = this.app.vault.getAllLoadedFiles().filter(file => file instanceof TFolder);
+
+        dropdown.addOption('', '— None —');
+        folders.forEach((folder: TFolder) => {
+            dropdown.addOption(folder.path, folder.path);
+        })
+
+        dropdown.setValue(this.plugin.settings.customLibrariesFolder);
+
+        dropdown.onChange(async (value) => {
+            this.plugin.settings.customLibrariesFolder = value;
             await this.plugin.saveSettings();
         });
       }
