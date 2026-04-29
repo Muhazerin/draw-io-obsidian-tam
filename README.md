@@ -77,14 +77,14 @@ there are 2 ways:
 
 1. install [BRAT from repository](https://github.com/TfTHacker/obsidian42-brat) or from [obsidian plugin list](obsidian://show-plugin?id=obsidian42-brat)
 2. open BRAT plugin `settings` > click `Add beta-plugin`
-3. paste in input `https://github.com/somesanity/draw-io-obsidian` select version and click to `Add plugin`.
+3. paste in input `https://github.com/Muhazerin/draw-io-obsidian-tam` select version and click to `Add plugin`.
 
 ### 🙌 manually install
 
 1.  **Clone or download this repository**:
 
     ```bash
-    git clone https://github.com/somesanity/draw-io-obsidian
+    git clone https://github.com/Muhazerin/draw-io-obsidian-tam
     ```
 
     Or download the ZIP and extract it.
