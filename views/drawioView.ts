@@ -78,7 +78,7 @@ export class Drawioview extends ItemView {
 
         this.iframe = container.createEl("iframe", {
             attr: {
-                src: `http://localhost:${this.plugin.settings.port}/?embed=1&proto=json&libraries=1&spin=1&ui=${drawioUi}&dark=${drawioDark}&splash=0&instance=${this.instanceId}`,
+                src: `http://localhost:${this.plugin.settings.port}/?embed=1&proto=json&configure=1&libraries=1&spin=1&ui=${drawioUi}&dark=${drawioDark}&splash=0&instance=${this.instanceId}`,
                 name: this.instanceId
             },
         });
@@ -264,14 +264,17 @@ async listendrawiomessage(event: MessageEvent) {
     if (msg.instance && msg.instance !== this.instanceId) return;
 
     switch (msg.event) {
-        case 'init': {
+        case 'configure': {
             const libraries = await this.plugin.loadCustomLibraries();
+            const config: any = {};
             if (libraries.length > 0) {
-                this.sendMessageToDrawio({
-                    action: 'configure',
-                    config: { customLibraries: libraries }
-                });
+                config.libraries = libraries;
             }
+            this.sendMessageToDrawio({ action: 'configure', config });
+            break;
+        }
+
+        case 'init': {
             const xml = this.currentFile
                 ? await this.app.vault.read(this.currentFile)
                 : "<mxGraphModel><root><mxCell id='0'/><mxCell id='1' parent='0'/></root></mxGraphModel>";

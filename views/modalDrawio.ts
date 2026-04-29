@@ -32,7 +32,7 @@ export class DrawioEmbedModal extends Modal {
         this.titleEl.setText(this.currentFile ? `${t('EditDiagraText')} ${this.currentFile.name}` : t('ModalNewDiagramCreateText'));
         if (this.currentFile) this.isEmptyDiagram = false;
         const isDarkTheme = document.body.hasClass("theme-dark");
-        const drawioUrl = `http://localhost:${this.plugin.settings.port}/?embed=1&proto=json&libraries=1&spin=1&splash=0` + (isDarkTheme ? `&ui=dark&dark=1` : `&ui=atlas`);
+        const drawioUrl = `http://localhost:${this.plugin.settings.port}/?embed=1&proto=json&configure=1&libraries=1&spin=1&splash=0` + (isDarkTheme ? `&ui=dark&dark=1` : `&ui=atlas`);
         this.iframe = contentEl.createEl("iframe", { attr: { src: drawioUrl } });
         this.iframe.addClass('drawioIframe');
         this.messageHandler = this.createMessageHandler();
@@ -107,6 +107,9 @@ export class DrawioEmbedModal extends Modal {
         if (msg.instance && msg.instance !== this.instanceId) return;
 
         switch (msg.event) {
+            case "configure":
+                await this.handleConfigureMessage();
+                break;
             case "init":
                 await this.handleInitMessage();
                 break;
@@ -130,14 +133,16 @@ export class DrawioEmbedModal extends Modal {
     };
     }
 
-    private async handleInitMessage() {
+    private async handleConfigureMessage() {
         const libraries = await this.plugin.loadCustomLibraries();
+        const config: any = {};
         if (libraries.length > 0) {
-            this.sendMessageToDrawio({
-                action: 'configure',
-                config: { customLibraries: libraries }
-            });
+            config.libraries = libraries;
         }
+        this.sendMessageToDrawio({ action: 'configure', config });
+    }
+
+    private async handleInitMessage() {
         if (this.currentFile) {
             const fileContent = await this.app.vault.read(this.currentFile);
             this.sendMessageToDrawio({ action: "load", xml: fileContent, autosave: 1 });
