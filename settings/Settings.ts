@@ -5,6 +5,7 @@ export interface DrawioSettings {
   interactiveDiagram: boolean;
   useMarkdownLinks: boolean;
   Folder: string;
+  customLibrariesFolder: string;
   diagramSize: string;
   HoverSizeDiagram: string;
   HiddenBorderInCanvas: boolean;
@@ -21,6 +22,7 @@ export const DEFAULT_SETTINGS: Partial<DrawioSettings> = {
   interactiveDiagram: true,
   useMarkdownLinks: false,
   Folder: 'drawio',
+  customLibrariesFolder: '',
   diagramSize: '',
   HoverSizeDiagram: '100%',
   HiddenBorderInCanvas: true,

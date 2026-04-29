@@ -131,6 +131,13 @@ export class DrawioEmbedModal extends Modal {
     }
 
     private async handleInitMessage() {
+        const libraries = await this.plugin.loadCustomLibraries();
+        if (libraries.length > 0) {
+            this.sendMessageToDrawio({
+                action: 'configure',
+                config: { customLibraries: libraries }
+            });
+        }
         if (this.currentFile) {
             const fileContent = await this.app.vault.read(this.currentFile);
             this.sendMessageToDrawio({ action: "load", xml: fileContent, autosave: 1 });

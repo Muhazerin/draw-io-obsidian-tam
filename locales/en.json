@@ -54,6 +54,8 @@
     "SETTINGS__CANVAS__AlwaysFocusedDiagram_Description": "When enabled, keeps all diagrams in the canvas focused, removing the need to click to enable interactivity",
     "SETTINGS__CANVAS__HiddenBorderInFocusMode_Name": "Hide borders in focus mode",
     "SETTINGS__CANVAS__HiddenBorderInFocusMode_Description": "Hides the borders around diagram elements when focused in the canvas",
+    "SETTINGS__CustomLibrariesFolder_Name": "Custom libraries folder",
+    "SETTINGS__CustomLibrariesFolder_Description": "Vault folder containing .xml draw.io library files. Libraries will be loaded automatically when the editor opens.",
     "SETTINGS__CANVAS__TransparentBackground_Name": "Transparent diagram background",
     "SETTINGS__CANVAS__TransparentBackground_Description": "When enabled, makes the background of diagram elements in the canvas transparent"
 }
